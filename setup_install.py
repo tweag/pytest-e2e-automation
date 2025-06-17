@@ -116,7 +116,7 @@ class InstallRequirements:
         errored_libs = []
         for req in reqs:
             output = subprocess.run(
-                ["pip", "install", req], capture_output=True, encoding="utf-8"
+                ["pip", "install", "--use-pep517", req], capture_output=True, encoding="utf-8"
             )
             if output.stderr:
                 std_err = output.stderr
