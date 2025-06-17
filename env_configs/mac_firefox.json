@@ -1,0 +1,17 @@
+{
+    "capabilities": {
+        "browserstack": "True",
+        "browserName": "Firefox",
+        "acceptInsecureCerts": true,
+        "bstack:options": {
+            "os": "OS X",
+            "osVersion": "Sonoma",
+            "browserVersion": "latest",
+            "projectName": "pytest-e2e-automation",
+            "local": true,
+            "debug": true,
+            "timezone": "UTC",
+            "localIdentifier": "pytest-e2e-automation"
+        }
+    }
+}

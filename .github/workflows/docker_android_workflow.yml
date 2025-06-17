@@ -1,0 +1,235 @@
+name: Docker - Android App Tests
+
+env:
+  TAGS: "android_mobile_tests"
+  PROJECT_LOCATION: ${{ github.workspace }}
+
+on:
+#  schedule:
+#    - cron: '0 0 * * *'
+  workflow_dispatch:
+    inputs:
+      tags:
+        description: Gherkin Tags
+        required: true
+        default: android_mobile_tests
+
+jobs:
+  scheduled-regression:
+    if: github.event_name == 'schedule'
+    name: Schedule Android - Regression
+    runs-on: macos-15
+    steps:
+      - name: Setup Python
+        id: setup_python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.9"
+
+      - name: Check out code
+        id: co_code
+        if: steps.setup_python.outcome == 'success'
+        uses: actions/checkout@v4
+
+      - name: Install and Run Appium Server
+        id: setup_appium
+        if: steps.co_code.outcome == 'success'
+        run: |
+          npm install -g appium
+
+      - name: Install uiautomator2 driver
+        id: install_driver
+        if: steps.setup_appium.outcome == 'success'
+        run: |
+          appium driver install uiautomator2
+          appium --relaxed-security --log-level debug &
+          sleep 10
+          appium -v   
+
+      - name: Create Android emulator
+        id: create_emulator
+        if: steps.install_driver.outcome == 'success'
+        run: |
+          brew install intel-haxm
+          # Install AVD files
+          echo "y" | $ANDROID_HOME/tools/bin/sdkmanager --install 'system-images;android-27;default;x86_64'
+          echo "y" | $ANDROID_HOME/tools/bin/sdkmanager --licenses
+          
+          # Create emulator
+          
+          $ANDROID_HOME/tools/bin/avdmanager create avd -n Pixel_API_29_AOSP -d pixel --package 'system-images;android-27;default;x86_64'
+          $ANDROID_HOME/emulator/emulator -list-avds
+          if false; then
+          emulator_config=~/.android/avd/Pixel_API_29_AOSP.avd/config.ini
+
+          sed -i .bak 's/hw.lcd.density=.*/hw.lcd.density=480/' "$emulator_config"
+          sed -i .bak 's/hw.lcd.height=.*/hw.lcd.height=2220/' "$emulator_config"
+          sed -i .bak 's/hw.lcd.width=.*/hw.lcd.width=1080/' "$emulator_config"
+          # Or, add new config
+          if ! grep -q "hw.lcd.density" "$emulator_config"; then
+            echo "hw.lcd.density=480" >> "$emulator_config"
+          fi
+          if ! grep -q "hw.lcd.height" "$emulator_config"; then
+            echo "hw.lcd.height=2220" >> "$emulator_config"
+          fi
+          if ! grep -q "hw.lcd.width" "$emulator_config"; then
+            echo "hw.lcd.width=1080" >> "$emulator_config"
+          fi
+          echo "Emulator settings ($emulator_config)"
+          cat "$emulator_config"
+          fi
+
+      - name: Start Android emulator
+        id: start_emulator
+        if: steps.create_emulator.outcome == 'success'
+        run: |
+          echo "Starting emulator and waiting for boot to complete...."
+          ls -la $ANDROID_HOME/emulator
+          nohup $ANDROID_HOME/tools/emulator -avd Pixel_API_29_AOSP -gpu host -no-audio -no-boot-anim -camera-back none -camera-front none -qemu -m 2048 2>&1 &
+          $ANDROID_HOME/platform-tools/adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed | tr -d '\r') ]]; do echo "wait..."; sleep 1; done; input keyevent 82'
+          echo "Emulator has finished booting"
+          $ANDROID_HOME/platform-tools/adb devices
+          sleep 30
+          screencapture screenshot.jpg
+          $ANDROID_HOME/platform-tools/adb exec-out screencap -p > emulator.png
+
+      - name: Setup dependencies
+        id: setup_dependencies
+        if: steps.co_code.outcome == 'success'
+        run: |
+          sh setup_install.sh
+
+      - name: Run Tests
+        id: run_manual_job
+        if: steps.setup_dependencies.outcome == 'success'
+        run: |
+          env
+          source $HOME/.bp-venv/bin/activate
+          python -m pytest -v --driver Appium --selenium-host 'localhost'  --selenium-port '4723' \
+                                --variables './env_configs/android_mobile_docker.json' \
+                                --tags="$TAGS" \
+                                --html=report.html \
+                                --self-contained-html \
+
+      - name: Upload HTML run report in the Artifacts Folder
+        uses: actions/upload-artifact@v4
+        with:
+          name: pytest-results
+          path: |
+            ./*.html
+            ./output_data/
+            ./assets/
+        if: ${{ always() }}
+
+  docker-manual-android-run:
+    if: github.event_name != 'schedule'
+    name: Manual - ${{ inputs.tags }}
+    runs-on: macos-15
+    steps:
+      - name: Validate Input Parameter
+        id: validate_input
+        run: |
+          if [[ -z "${{ github.event.inputs.tags }}" ]]; then
+            echo "Invalid input: 'tags' is required but not provided."
+            exit 1
+          fi
+
+      - name: Setup Python
+        id: setup_python
+        if: steps.validate_input.outcome == 'success'
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.9"
+
+      - name: Install and Run Appium Server
+        id: setup_appium
+        if: steps.setup_python.outcome == 'success'
+        run: |
+          npm install -g appium
+
+      - name: Install uiautomator2 driver
+        id: install_driver
+        if: steps.setup_appium.outcome == 'success'
+        run: |
+          appium driver install uiautomator2
+          appium --relaxed-security --log-level debug &
+          sleep 10
+          appium -v   
+
+      - name: Create Android emulator
+        run: |
+          brew install intel-haxm
+          # Install AVD files
+          echo "y" | $ANDROID_HOME/tools/bin/sdkmanager --install 'system-images;android-27;default;x86_64'
+          echo "y" | $ANDROID_HOME/tools/bin/sdkmanager --licenses
+          
+          # Create emulator
+          
+          $ANDROID_HOME/tools/bin/avdmanager create avd -n Pixel_API_29_AOSP -d pixel --package 'system-images;android-27;default;x86_64'
+          $ANDROID_HOME/emulator/emulator -list-avds
+          if false; then
+          emulator_config=~/.android/avd/Pixel_API_29_AOSP.avd/config.ini
+
+          sed -i .bak 's/hw.lcd.density=.*/hw.lcd.density=480/' "$emulator_config"
+          sed -i .bak 's/hw.lcd.height=.*/hw.lcd.height=2220/' "$emulator_config"
+          sed -i .bak 's/hw.lcd.width=.*/hw.lcd.width=1080/' "$emulator_config"
+          # Or, add new config
+          if ! grep -q "hw.lcd.density" "$emulator_config"; then
+            echo "hw.lcd.density=480" >> "$emulator_config"
+          fi
+          if ! grep -q "hw.lcd.height" "$emulator_config"; then
+            echo "hw.lcd.height=2220" >> "$emulator_config"
+          fi
+          if ! grep -q "hw.lcd.width" "$emulator_config"; then
+            echo "hw.lcd.width=1080" >> "$emulator_config"
+          fi
+          echo "Emulator settings ($emulator_config)"
+          cat "$emulator_config"
+          fi
+
+      - name: Start Android emulator
+        id: start_emulator
+        run: |
+          echo "Starting emulator and waiting for boot to complete...."
+          ls -la $ANDROID_HOME/emulator
+          nohup $ANDROID_HOME/tools/emulator -avd Pixel_API_29_AOSP -gpu host -no-audio -no-boot-anim -camera-back none -camera-front none -qemu -m 2048 2>&1 &
+          $ANDROID_HOME/platform-tools/adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed | tr -d '\r') ]]; do echo "wait..."; sleep 1; done; input keyevent 82'
+          echo "Emulator has finished booting"
+          $ANDROID_HOME/platform-tools/adb devices
+          sleep 30
+          screencapture screenshot.jpg
+          $ANDROID_HOME/platform-tools/adb exec-out screencap -p > emulator.png
+
+      - name: Check out code
+        id: co_code
+        if: steps.start_emulator.outcome == 'success'
+        uses: actions/checkout@v4
+
+      - name: Setup dependencies
+        id: setup_dependencies
+        if: steps.co_code.outcome == 'success'
+        run: |
+          sh setup_install.sh
+
+      - name: Run Tests
+        id: run_manual_job
+        if: steps.setup_dependencies.outcome == 'success'
+        run: |
+          TAGS="${{ github.event.inputs.tags }}"
+          env
+          source $HOME/.bp-venv/bin/activate
+          python -m pytest -v --driver Appium --selenium-host 'localhost'  --selenium-port '4723' \
+                                --variables './env_configs/android_mobile_docker.json' \
+                                --tags="$TAGS"  \
+                                --html=report.html  \
+                                --self-contained-html  \
+
+      - name: Upload HTML run report in the Artifacts Folder
+        uses: actions/upload-artifact@v4
+        with:
+          name: pytest-results
+          path: |
+            ./*.html
+            ./output_data/
+            ./assets/
+        if: ${{ always() }}

@@ -1,0 +1,13 @@
+{
+  "capabilities": {
+	"browserName": "Safari",
+	"LT:Options": {
+		"platformName": "macOS Sonoma",
+		"build": "pytest-e2e-automation",
+		"project": "pytest-e2e-automation",
+		"w3c": "True",
+		"plugin": "python-pytest",
+		"tunnel": "True"
+	}
+  }
+}

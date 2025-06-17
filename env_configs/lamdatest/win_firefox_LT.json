@@ -1,0 +1,13 @@
+{
+  "capabilities": {
+	"browserName": "Firefox",
+	"LT:Options": {
+		"platformName": "Windows 10",
+		"build": "pytest-e2e-automation",
+		"project": "pytest-e2e-automation",
+		"w3c": "True",
+		"plugin": "python-pytest",
+		"tunnel": "True"
+	}
+  }
+}

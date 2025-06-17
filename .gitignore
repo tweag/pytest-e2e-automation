@@ -1,0 +1,36 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+../.pytest_cache/
+../.DS_Store
+../.idea/
+.idea/
+.DS_Store
+.cache
+.pytest_cache/
+*.log
+
+target/
+
+# Environments
+.env
+.venv
+env/
+.venv/
+configs/.local.env
+.pyre/
+Pipfile
+Pipfile.lock
+
+/binaries/BrowserStackLocal*
+
+/output_data/visualtesting/diff/*
+/output_data/screenshots/*
+/output_data/temp_screenshots/*
+/output_data/reports/*
+/output_data/run_logs/*
+/output_data/json/*
+*.apk
+*.ipa
+

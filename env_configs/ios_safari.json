@@ -1,0 +1,19 @@
+{
+    "capabilities": {
+        "browserstack": "True",
+        "platformVersion": "17",
+        "deviceName": "iPhone 15 Pro Max",
+        "browserName": "safari",
+        "bstack:options": {
+            "os": "iOS",
+            "projectName": "pytest-e2e-automation",
+            "acceptInsecureCerts": "true",
+            "localIdentifier": "Python-Automation",
+            "unhandledPromptBehavior": "ignore",
+            "local" : "true",
+            "debug" : "true",
+            "networkLogs" : "true",
+            "safariAllowPopups": "true"
+        }
+    }
+}
