@@ -33,8 +33,3 @@ Pipfile.lock
 /output_data/json/*
 *.apk
 *.ipa
-
-/output_data/
-/output_data/allure/
-/output/
-/output/reports/
