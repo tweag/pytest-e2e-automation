@@ -34,3 +34,7 @@ Pipfile.lock
 *.apk
 *.ipa
 
+/output_data/
+/output_data/allure/
+/output/
+/output/reports/
