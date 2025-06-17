@@ -24,7 +24,7 @@ def file_paths(image_name_with_ext: str):
     return screenshot_paths(
         Path(Path.cwd() / "test_data" / "visualtesting" / "base" / f"{image_name_with_ext}").resolve(),
         Path(Path.cwd() / "test_data" / "visualtesting" / "test" / f"{image_name_with_ext}").resolve(),
-        Path(Path.cwd() / "output_data" / "visualtesting" / "diff" / f"{image_name_with_ext}").resolve(),
+        Path(Path.cwd() / "test_data" / "visualtesting" / "diff" / f"{image_name_with_ext}").resolve(),
     )
 
 
