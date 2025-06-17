@@ -43,7 +43,7 @@ jobs:
           appium driver install xcuitest
           appium --relaxed-security --log-level debug &
           sleep 10
-          appium -v   
+          appium -v
 
       - name: Set up X Code
         id: setup_xcode
@@ -71,7 +71,7 @@ jobs:
         if: steps.setup_dependencies.outcome == 'success'
         run: |
           env
-          source $HOME/.bp-venv/bin/activate
+          source $HOME/.qa-venv/bin/activate
           python -m pytest -v --driver Appium --selenium-host 'localhost'  --selenium-port '4723' \
                                 --variables './env_configs/ios_mobile_docker.json' \
                                 --tags="$TAGS" \
@@ -126,8 +126,8 @@ jobs:
           appium driver install xcuitest
           appium --relaxed-security --log-level debug &
           sleep 10
-          appium -v   
-          
+          appium -v
+
 
       - name: Set up X Code
         id: setup_xcode
@@ -156,7 +156,7 @@ jobs:
         run: |
           TAGS="${{ github.event.inputs.tags }}"
           env
-          source $HOME/.bp-venv/bin/activate
+          source $HOME/.qa-venv/bin/activate
           python -m pytest -v --driver Appium --selenium-host 'localhost'  --selenium-port '4723' \
                                 --variables './env_configs/ios_mobile_docker.json' \
                                 --tags="$TAGS" \

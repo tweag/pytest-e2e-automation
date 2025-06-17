@@ -85,7 +85,7 @@ jobs:
       - name: Run All Tests
         run: |
           env
-          source $HOME/.bp-venv/bin/activate
+          source $HOME/.qa-venv/bin/activate
           sh ci_run_web.sh ${{secrets.BROWSERSTACK_API_USERNAME}} ${{secrets.BROWSERSTACK_ACCESS_KEY}} "${{ matrix.config_file }}" "${{ matrix.tags }}" "${{ matrix.baseurl }}" "${{secrets.SLACK_WEBHOOK_URL}}" "${{secrets.TEAMS_WEBHOOK_URL}}"
 
       - name: BrowserStackLocal Stop

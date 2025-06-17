@@ -55,7 +55,7 @@ jobs:
             -   name: Run All Tests
                 run: |
                     env
-                     source $HOME/.bp-venv/bin/activate
+                     source $HOME/.qa-venv/bin/activate
 
                      python -m pytest -v --driver Appium --selenium-host '${{secrets.LT_USERNAME}}:${{secrets.LT_ACCESS_KEY}}@mobile-hub.lambdatest.com' \
                       --variables ${{ matrix.config_file }} --tags="${{ matrix.tags }}" \
@@ -117,7 +117,7 @@ jobs:
                     TAGS="${{ github.event.inputs.tags }}"
 
                     env
-                    source $HOME/.bp-venv/bin/activate
+                    source $HOME/.qa-venv/bin/activate
                     python -m pytest -v --driver Appium \
                       --selenium-host '${{secrets.LT_USERNAME}}:${{secrets.LT_ACCESS_KEY}}@mobile-hub.lambdatest.com' \
                       --variables './env_configs/lamdatest/android_mobile_LT.json' \

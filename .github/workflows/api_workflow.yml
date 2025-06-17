@@ -39,8 +39,8 @@ jobs:
           then
             TAGS="${{ github.event.inputs.tags }}"
           fi
-          
-          source $HOME/.bp-venv/bin/activate
+
+          source $HOME/.qa-venv/bin/activate
           sh ci_run_api.sh "$TAGS" "${{secrets.SLACK_WEBHOOK_URL}}" "${{secrets.TEAMS_WEBHOOK_URL}}"
 
       - name: Get Allure history
@@ -101,8 +101,8 @@ jobs:
           then
             TAGS="${{ github.event.inputs.tags }}"
           fi
-          
-          source $HOME/.bp-venv/bin/activate
+
+          source $HOME/.qa-venv/bin/activate
           sh ci_run_api.sh "$TAGS" "${{secrets.SLACK_WEBHOOK_URL}}" "${{secrets.TEAMS_WEBHOOK_URL}}"
 
       - name: Get Allure history

@@ -109,7 +109,7 @@ jobs:
         if: steps.setup_dependencies.outcome == 'success'
         run: |
           env
-           source $HOME/.bp-venv/bin/activate
+           source $HOME/.qa-venv/bin/activate
 
            python -m pytest -v --driver Remote --selenium-host 'localhost' --selenium-port '4444' \
             --variables ${{ matrix.config_file }} --tags="${{ matrix.tags }}" \
@@ -205,7 +205,7 @@ jobs:
           if [[ "${{ github.event.inputs.browser }}" == "chrome" ]]; then
             BROWSER=./env_configs/docker_chrome.json
           fi
-          
+
           if [[ "${{ github.event.inputs.browser }}" == "firefox" ]]; then
             BROWSER=./env_configs/docker_firefox.json
           fi
@@ -214,7 +214,7 @@ jobs:
           fi
 
           env
-          source $HOME/.bp-venv/bin/activate
+          source $HOME/.qa-venv/bin/activate
           python -m pytest -v --driver Remote \
             --selenium-host 'localhost' --selenium-port '4444' \
             --variables "$BROWSER" \

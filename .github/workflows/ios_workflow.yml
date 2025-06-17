@@ -60,7 +60,7 @@ jobs:
             -   name: Run All Tests
                 run: |
                     env
-                     source $HOME/.bp-venv/bin/activate
+                     source $HOME/.qa-venv/bin/activate
 
                      python -m pytest -v --driver Appium --selenium-host '${{secrets.BROWSERSTACK_API_USERNAME}}:${{secrets.BROWSERSTACK_ACCESS_KEY}}@hub-cloud.browserstack.com' \
                       --variables ${{ matrix.config_file }} --tags="${{ matrix.tags }}" \
@@ -139,7 +139,7 @@ jobs:
 
 
                     env
-                    source $HOME/.bp-venv/bin/activate
+                    source $HOME/.qa-venv/bin/activate
                     python -m pytest -v --driver Appium \
                       --selenium-host '${{secrets.BROWSERSTACK_API_USERNAME}}:${{secrets.BROWSERSTACK_ACCESS_KEY}}@hub-cloud.browserstack.com' \
                       --variables './env_configs/ios_mobile_BS.json' \

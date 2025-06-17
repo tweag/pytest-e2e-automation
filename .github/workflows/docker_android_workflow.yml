@@ -44,7 +44,7 @@ jobs:
           appium driver install uiautomator2
           appium --relaxed-security --log-level debug &
           sleep 10
-          appium -v   
+          appium -v
 
       - name: Create Android emulator
         id: create_emulator
@@ -54,9 +54,9 @@ jobs:
           # Install AVD files
           echo "y" | $ANDROID_HOME/tools/bin/sdkmanager --install 'system-images;android-27;default;x86_64'
           echo "y" | $ANDROID_HOME/tools/bin/sdkmanager --licenses
-          
+
           # Create emulator
-          
+
           $ANDROID_HOME/tools/bin/avdmanager create avd -n Pixel_API_29_AOSP -d pixel --package 'system-images;android-27;default;x86_64'
           $ANDROID_HOME/emulator/emulator -list-avds
           if false; then
@@ -104,7 +104,7 @@ jobs:
         if: steps.setup_dependencies.outcome == 'success'
         run: |
           env
-          source $HOME/.bp-venv/bin/activate
+          source $HOME/.qa-venv/bin/activate
           python -m pytest -v --driver Appium --selenium-host 'localhost'  --selenium-port '4723' \
                                 --variables './env_configs/android_mobile_docker.json' \
                                 --tags="$TAGS" \
@@ -154,7 +154,7 @@ jobs:
           appium driver install uiautomator2
           appium --relaxed-security --log-level debug &
           sleep 10
-          appium -v   
+          appium -v
 
       - name: Create Android emulator
         run: |
@@ -162,9 +162,9 @@ jobs:
           # Install AVD files
           echo "y" | $ANDROID_HOME/tools/bin/sdkmanager --install 'system-images;android-27;default;x86_64'
           echo "y" | $ANDROID_HOME/tools/bin/sdkmanager --licenses
-          
+
           # Create emulator
-          
+
           $ANDROID_HOME/tools/bin/avdmanager create avd -n Pixel_API_29_AOSP -d pixel --package 'system-images;android-27;default;x86_64'
           $ANDROID_HOME/emulator/emulator -list-avds
           if false; then
@@ -217,7 +217,7 @@ jobs:
         run: |
           TAGS="${{ github.event.inputs.tags }}"
           env
-          source $HOME/.bp-venv/bin/activate
+          source $HOME/.qa-venv/bin/activate
           python -m pytest -v --driver Appium --selenium-host 'localhost'  --selenium-port '4723' \
                                 --variables './env_configs/android_mobile_docker.json' \
                                 --tags="$TAGS"  \

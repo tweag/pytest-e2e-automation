@@ -136,7 +136,7 @@ jobs:
       - name: Run All Tests
         run: |
           env
-          source $HOME/.bp-venv/bin/activate
+          source $HOME/.qa-venv/bin/activate
           sh ci_lt_run_web.sh ${{secrets.LT_USERNAME}} ${{secrets.LT_ACCESS_KEY}} "${{ matrix.config_file }}" "${{ matrix.tags }}" "${{ matrix.baseurl }}" "${{secrets.SLACK_WEBHOOK_URL}}" "${{secrets.TEAMS_WEBHOOK_URL}}"
 
       - name: Upload HTML run report in the Artifacts Folder
@@ -243,9 +243,9 @@ jobs:
           if [[ "${{ github.event.inputs.browser }}" == "edge" && "${{ github.event.inputs.os }}" == "mac" ]]; then
             BROWSER=./env_configs/lamdatest/mac_edge_LT.json
           fi
-          
+
           env
-          source $HOME/.bp-venv/bin/activate
+          source $HOME/.qa-venv/bin/activate
           sh ci_lt_run_web.sh ${{secrets.LT_USERNAME}} ${{secrets.LT_ACCESS_KEY}} "$BROWSER" "$TAGS" "$BASE_URL" "${{secrets.SLACK_WEBHOOK_URL}}" "${{secrets.TEAMS_WEBHOOK_URL}}"
 
       - name: Upload HTML run report in the Artifacts Folder
