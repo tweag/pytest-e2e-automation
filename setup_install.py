@@ -115,9 +115,11 @@ class InstallRequirements:
     def _install_reqs(self, reqs):
         errored_libs = []
         for req in reqs:
-            output = subprocess.run(
-                ["pip", "install", "--use-pep517", "--no-build-isolation", req], capture_output=True, encoding="utf-8"
-            )
+            if not req.startswith("pytest-selenium-enhancer"):
+                output = subprocess.run(["pip", "install", "--use-pep517", req], capture_output=True, encoding="utf-8")
+            else:
+                output = subprocess.run(["pip", "install", "--use-pep517", "--no-build-isolation", req], capture_output=True, encoding="utf-8")
+
             if output.stderr:
                 std_err = output.stderr
                 errored_libs.append(req)
