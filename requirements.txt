@@ -1,9 +1,13 @@
-# Gamil api
-google-api-python-client==2.105.0
-google-auth-httplib2==0.1.1
-google-auth-oauthlib==1.1.0
-
 # Core Libraries
+wheel == 0.38.1
+Appium-Python-Client == 3.1.1
+selenium == 4.12
+requests == 2.32.4
+Pillow == 10.3.0
+beautifulsoup4 == 4.11.0
+polling == 0.3.0
+opencv-python == 4.8.1.78
+pymsteams == 0.2.2
 
 pytest == 6.2.5
 pytest-bdd == 6.0.1
@@ -18,15 +22,6 @@ pytest-selenium-enhancer == 1.7.1
 pytest-json == 0.4.0
 allure-pytest-bdd == 2.13.2
 
-wheel == 0.38.1
-Appium-Python-Client == 3.1.1
-selenium == 4.12
-requests == 2.32.4
-Pillow == 10.3.0
-beautifulsoup4 == 4.11.0
-polling == 0.3.0
-opencv-python == 4.8.1.78
-pymsteams == 0.2.2
 
 cucumber-tag-expressions == 4.1.0
 gherkin-official == 24.1.0
@@ -58,3 +53,7 @@ pyclean == 2.7.3
 
 # Soft assertion
 pytest-check == 2.0.0
+# Gamil api
+google-api-python-client==2.105.0
+google-auth-httplib2==0.1.1
+google-auth-oauthlib==1.1.0
