@@ -33,3 +33,4 @@ Pipfile.lock
 /output_data/json/*
 *.apk
 *.ipa
+/output_data/allure/results/*.png
