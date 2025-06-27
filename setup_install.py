@@ -24,12 +24,12 @@ def install_project_selenium_drivers():
 
     PROJECT_DIR = Path.cwd()
     TEMP_DIR = PROJECT_DIR / "temp"
-    BINARIES_DIR = PROJECT_DIR / "webdriver"
+    BINARIES_DIR = PROJECT_DIR / "browserstack_local"
 
     get_bs_local_by_platform(str(TEMP_DIR), str(BINARIES_DIR))
 
     if os.getenv("CI") == "true":
-        print("Using webdriver binaries provided in the github runner image")
+        print("Using browserstack_local binaries provided in the github runner image")
         shutil.copy2(f"{Path(os.getenv('CHROMEWEBDRIVER'))}/chromedriver", f"{BINARIES_DIR}")
         shutil.copy2(f"{Path(os.getenv('GECKOWEBDRIVER'))}/geckodriver", f"{BINARIES_DIR}")
         shutil.copy2(f"{Path(os.getenv('EDGEWEBDRIVER'))}/msedgedriver", f"{BINARIES_DIR}")

@@ -139,12 +139,12 @@ pytest-e2e-automation framework uses built-in driver manager to handle the drive
 .
 ├── /                                         # root directory with project-wide env_configs and folders
 ├── /mobile_app                               # directory with all android and ios builds
-├── /webdriver                                # directory contains all the driver binaries / Browserstack local binary
+├── /browserstack_local                                # directory contains all the driver binaries / Browserstack local binary
 ├── /main                                     # directory contains all the base code (utils, plugins, common steps...) for the framework
 ├── /env_configs/                             # Configurations related to framework & browser specific
 ├── /e2e/                                     # Project specific files (locators, page objects, step definitions, feature files... etc)
-├── /e2e/features/*                           # Test cases written in Gherkin language
-├── /e2e/locators/*                           # Web locators for the project
+├── /e2e/demo_project/features/*                           # Test cases written in Gherkin language
+├── /e2e/demo_project/locators/*                           # Web locators for the project
 ├── /output_data/                                  # Reports, downloads.... etc)
 ├── /test_data/                               # All project test data for API, WEB, Mobile tests)
 │   ├── /conftest.py                          # Step up and tear down for the tests
