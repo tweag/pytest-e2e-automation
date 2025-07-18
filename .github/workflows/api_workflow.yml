@@ -31,7 +31,8 @@ jobs:
 
       - name: Setup dependencies
         run: |
-          pip install -r requirements.txt
+            pip install pytest-selenium-enhancer --use-pep517
+            pip install -r requirements.txt --use-pep517 --no-build-isolation
 
       - name: Run tests
         run: |
@@ -93,7 +94,10 @@ jobs:
 
       - name: Setup dependencies
         run: |
-          pip install -r requirements.txt
+            pip install pytest-selenium-enhancer --use-pep517
+            pip install -r requirements.txt --use-pep517 --no-build-isolation
+
+
 
       - name: Run tests
         run: |
