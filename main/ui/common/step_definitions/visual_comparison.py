@@ -6,9 +6,9 @@ from pytest_check import check
 
 from main.ui.common.helpers.selenium_generics import SeleniumGenerics
 from main.ui.common.utils.locator_parser import Locators
-from main.ui.common.helpers.standalone_compare import are_two_images_look_same
+from main.ui.common.helpers.single import are_two_images_look_same
 from main.utils.gherkin_utils import data_table_horizontal_converter
-from main.ui.common.helpers.web_compare import (are_two_webelements_look_same, are_two_webpages_look_same)
+from main.ui.common.helpers.comparison import (are_two_webelements_look_same, are_two_webpages_look_same)
 
 logger = structlog.get_logger(__name__)
 
