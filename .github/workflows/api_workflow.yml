@@ -31,6 +31,7 @@ jobs:
 
       - name: Setup dependencies
         run: |
+            pip install --upgrade pip
             pip install -r requirements.txt --use-pep517 --no-build-isolation
 
       - name: Run tests
@@ -93,6 +94,7 @@ jobs:
 
       - name: Setup dependencies
         run: |
+            pip install --upgrade pip
             pip install -r requirements.txt --use-pep517 --no-build-isolation
 
 
