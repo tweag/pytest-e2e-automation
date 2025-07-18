@@ -91,7 +91,7 @@ Getting Started
 
     ```shell
     cd pytest-e2e-automation/
-    pip install -r requirements.txt
+    source setup_install.sh
 
 3. <u><strong>Environment Variables in `.local.env` & `pytest.ini` files</strong></u>
     Update the environment variables in `.local.env` file and `pytest.ini` file as per your local machine setup.
@@ -148,6 +148,8 @@ pytest-e2e-automation framework uses built-in driver manager to handle the drive
 ├── /output_data/                                  # Reports, downloads.... etc)
 ├── /test_data/                               # All project test data for API, WEB, Mobile tests)
 │   ├── /conftest.py                          # Step up and tear down for the tests
+│   ├── /setup_install.sh                     # Local Setup script
+│   ├── /**.sh                                # Shell scripts for local/CI runs
 │   ├── /pytest.ini                           # Project init file
 │   ├── /docker-compose.yml                   # To build the docker image
 │   ├── /README.md                            # Instructions for the project
