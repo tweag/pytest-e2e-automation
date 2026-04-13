@@ -9,7 +9,7 @@ polling == 0.3.0
 opencv-python == 4.8.1.78
 pymsteams == 0.2.2
 
-pytest == 6.2.5
+pytest == 9.0.3
 pytest-bdd == 6.0.1
 pytest-rerunfailures == 11.1.2
 pytest-xdist == 3.3.1
